@@ -11,7 +11,7 @@ const path = require ("path");
 
 // create array to store and delete notes from db.json
 const notesArray = require("./db/db.json");
-console.log(notesArray);
+
 
 // this app variable will route the HTTP requests, configure middleware, and rednereing HTML see more here: https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Introduction
 const app = express ();

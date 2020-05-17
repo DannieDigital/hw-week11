@@ -31,5 +31,5 @@
 ###### Danielle Beaty
 ---
 ### App Functionality
-![]
+![](gif/demo.gif)
 
