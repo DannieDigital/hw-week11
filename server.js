@@ -9,6 +9,10 @@ const fs = require ("fs");
 // this path module provides utilities for working with file and directory paths
 const path = require ("path");
 
+// create array to store and delete notes from db.json
+const notesArray = require("./db/db.json");
+console.log(notesArray);
+
 // this app variable will route the HTTP requests, configure middleware, and rednereing HTML see more here: https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Introduction
 const app = express ();
 
@@ -44,7 +48,7 @@ app.get("/api/notes", (req, res) => {
         return res.json(JSON.parse(data));
     })
 })
-// saves notes with express function 
+// saves notes with express function takes in user input
 app.post("/api/notes", (req, res) => {
     req.body["id"] = memo.length + 1;
     let newMemo = JSON.stringify(req.body);
@@ -58,8 +62,24 @@ app.post("/api/notes", (req, res) => {
 
 // deletes the notes with express function 
 app.delete("/api/notes/:id", (req,res) => {
-    res.json({ ok: true});
-});
+
+    // create notes id index for notesArray variable
+     let id = parseInt(req.params.id);
+     
+    //  set id index to remove save notes from db.json 
+     let removeItemArray = notesArray.filter(item => item.id != id);
+ 
+     removeItemArray.forEach(element => element.id = removeItemArray.indexOf(element));
+ 
+     fs.writeFileSync("./db/db.json", JSON.stringify(removeItemArray));
+ 
+     res.json({
+         isError: false,
+         port: PORT,
+         status: 200,
+         success: true
+     });
+ });
 
 app.get("*", (req,res) => {
     res.sendFile(path.join(__dirname, "./public/index.html"));
